@@ -10,11 +10,14 @@ app = Flask(__name__)
 def add_user():
     data = request.get_json()
     user_name = data.get('user_name')
-    try:
-        create_user(user_name)
-        return jsonify({"status": "ok", "user_added": user_name}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    if user_name and user_name.strip():
+        try:
+            create_user(user_name)
+            return jsonify({"status": "ok", "user_added": user_name}), 200
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+    else:
+        return jsonify({"error": "invalid user_name"}), 500
 
 
 # Handles GET requests to retrieve a user by user_id.

@@ -2,73 +2,53 @@ from create_table import create_connection
 from mysql.connector import Error
 
 
-def create_user(user_name):
-    conn = create_connection()
+def execute_query(query, params=None, fetch=False):
+    """ Utility function to handle repetitive query execution logic """
+    conn = create_connection()  # Get the connection
+    result = None
     if conn is not None:
-        conn.database = 'users'
-        insert_query = "INSERT INTO users (user_name, creation_date) VALUES (%s, NOW());"
+        conn.database = 'users'  # Use the 'users' database
         try:
             cursor = conn.cursor()
-            cursor.execute(insert_query, (user_name,))
-            conn.commit()
-            print(f"User '{user_name}' created successfully!")
+            cursor.execute(query, params)  # Execute the query with parameters
+            if fetch:
+                result = cursor.fetchall()  # Fetch results if needed
+            else:
+                conn.commit()  # Commit the changes for non-fetch queries
+            return result
         except Error as e:
             print(f"Error: {e}")
         finally:
-            cursor.close()
-            conn.close()
+            cursor.close()  # Close cursor
+            conn.close()    # Close the connection
+    return result
+
+
+def create_user(user_name):
+    """ Create a new user in the users table """
+    query = "INSERT INTO users (user_name, creation_date) VALUES (%s, NOW());"
+    execute_query(query, (user_name,))
+    print(f"User '{user_name}' created successfully!")
 
 
 def modify_user(user_id, user_name):
-    conn = create_connection()
-    if conn is not None:
-        conn.database = 'users'
-        insert_query = "UPDATE users SET user_name = %s WHERE user_id = %s;"
-        try:
-            cursor = conn.cursor()
-            cursor.execute(insert_query, (user_name, user_id))
-            conn.commit()
-            print(f"Id '{user_id}' modified successfully!")
-        except Error as e:
-            print(f"Error: {e}")
-        finally:
-            cursor.close()
-            conn.close()
+    """ Modify an existing user in the users table """
+    query = "UPDATE users SET user_name = %s WHERE user_id = %s;"
+    execute_query(query, (user_name, user_id))
+    print(f"User with ID '{user_id}' modified successfully!")
 
 
 def get_user(user_id):
-    conn = create_connection()
-    if conn is not None:
-        conn.database = 'users'
-        insert_query = "SELECT * FROM users WHERE user_id = %s;"
-        try:
-            cursor = conn.cursor()
-            cursor.execute(insert_query, (user_id,))
-            result = cursor.fetchall()
-            for row in result:
-                print(row[1])
-        except Error as e:
-            print(f"Error: {e}")
-        finally:
-            cursor.close()
-            conn.close()
+    """ Retrieve a user from the users table """
+    query = "SELECT * FROM users WHERE user_id = %s;"
+    result = execute_query(query, (user_id,), fetch=True)
+    if result:
+        print(result[0])  # Print the first user found
     return result
 
 
 def delete_user(user_id):
-    conn = create_connection()
-    if conn is not None:
-        conn.database = 'users'
-        insert_query = """
-        DELETE FROM users WHERE user_id = %s;
-        """
-        try:
-            cursor = conn.cursor()
-            cursor.execute(insert_query, (user_id,))
-            conn.commit()
-            print(f"Id '{user_id}' deleted successfully!")
-        except Error as e:
-            print(f"Error: {e}")
-        finally:
-            cursor.close()
-            conn.close()
+    """ Delete a user from the users table """
+    query = "DELETE FROM users WHERE user_id = %s;"
+    execute_query(query, (user_id,))
+    print(f"User with ID '{user_id}' deleted successfully!")
