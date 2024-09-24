@@ -3,8 +3,7 @@ from mysql.connector import Error
 
 
 def create_user(user_name):
-    """ Insert a new user into the users table """
-    conn = create_connection()  # Call the function to get the connection
+    conn = create_connection()
     if conn is not None:
         conn.database = 'users'
         insert_query = "INSERT INTO users (user_name, creation_date) VALUES (%s, NOW());"
@@ -12,23 +11,19 @@ def create_user(user_name):
             cursor = conn.cursor()
             cursor.execute(insert_query, (user_name,))
             conn.commit()
-            print(f"User '{user_name}' created successfully!"), 200
+            print(f"User '{user_name}' created successfully!")
         except Error as e:
-            print(f"Error: {e}"), 500
+            print(f"Error: {e}")
         finally:
-            cursor.close()  # Only close cursor if it was created
-            conn.close()    # Close the connection
+            cursor.close()
+            conn.close()
 
 
 def modify_user(user_id, user_name):
-    conn = create_connection()  # Call the function to get the connection
+    conn = create_connection()
     if conn is not None:
         conn.database = 'users'
-        insert_query = """
-        UPDATE users
-        SET user_name = %s
-        WHERE user_id = %s;
-        """
+        insert_query = "UPDATE users SET user_name = %s WHERE user_id = %s;"
         try:
             cursor = conn.cursor()
             cursor.execute(insert_query, (user_name, user_id))
@@ -37,34 +32,31 @@ def modify_user(user_id, user_name):
         except Error as e:
             print(f"Error: {e}")
         finally:
-            cursor.close()  # Only close cursor if it was created
-            conn.close()    # Close the connection
+            cursor.close()
+            conn.close()
 
 
 def get_user(user_id):
-    conn = create_connection()  # Call the function to get the connection
+    conn = create_connection()
     if conn is not None:
         conn.database = 'users'
-        insert_query = """
-        SELECT * FROM users
-        WHERE user_id = %s;
-        """
+        insert_query = "SELECT * FROM users WHERE user_id = %s;"
         try:
             cursor = conn.cursor()
             cursor.execute(insert_query, (user_id,))
-            result = cursor.fetchall()  # Fetch all results
+            result = cursor.fetchall()
             for row in result:
                 print(row[1])
         except Error as e:
             print(f"Error: {e}")
         finally:
-            cursor.close()  # Only close cursor if it was created
-            conn.close()    # Close the connection
+            cursor.close()
+            conn.close()
     return result
 
 
 def delete_user(user_id):
-    conn = create_connection()  # Call the function to get the connection
+    conn = create_connection()
     if conn is not None:
         conn.database = 'users'
         insert_query = """
@@ -78,5 +70,5 @@ def delete_user(user_id):
         except Error as e:
             print(f"Error: {e}")
         finally:
-            cursor.close()  # Only close cursor if it was created
-            conn.close()    # Close the connection
+            cursor.close()
+            conn.close()

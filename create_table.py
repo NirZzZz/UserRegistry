@@ -2,8 +2,8 @@ import mysql.connector
 from mysql.connector import Error
 
 
+# Create a database connection
 def create_connection():
-    """ Create a database connection """
     conn = None
     try:
         conn = mysql.connector.connect(
@@ -12,14 +12,13 @@ def create_connection():
             user='root',
             password='adminadmin'
         )
-        print("Connection successful!")
     except Error as e:
         print(f"Error: {e}")
     return conn
 
 
+# Create a database if it doesn't exist
 def create_database(conn):
-    """ Create a database if it doesn't exist """
     create_db_query = "CREATE DATABASE IF NOT EXISTS users;"
     try:
         cursor = conn.cursor()
@@ -32,8 +31,8 @@ def create_database(conn):
         cursor.close()
 
 
+# Create a table in the database
 def create_table(conn):
-    """ Create a table in the database """
     create_table_query = """
     CREATE TABLE IF NOT EXISTS users (
         user_id INT AUTO_INCREMENT PRIMARY KEY NOT NULL UNIQUE,
@@ -52,8 +51,8 @@ def create_table(conn):
         cursor.close()
 
 
+# Close the database connection
 def close_connection(conn):
-    """ Close the database connection """
     if conn and conn.is_connected():
         conn.close()
         print("Connection closed.")
@@ -63,8 +62,7 @@ def close_connection(conn):
 if __name__ == '__main__':
     connection = create_connection()
     if connection is not None:
-        create_database(connection)  # Create the database
-        # Reconnect to the specific database
-        connection.database = 'users'  # Switch to the new database
-        create_table(connection)  # Create the table
+        create_database(connection)
+        connection.database = 'users'
+        create_table(connection)
         close_connection(connection)
