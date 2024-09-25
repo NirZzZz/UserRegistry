@@ -35,8 +35,8 @@ def get_user_by_id(user_id):
         return jsonify({"error": str(e)}), 500
 
 
-# Handles PUT requests to update a user's name based on their user_id.
-# Returns a success message with the updated user name or an error if no such ID exists.
+# Handles PUT requests to update a user_name based on their user_id.
+# Returns a success message with the updated user_name or an error if no such ID exists.
 @app.route('/users/<int:user_id>', methods=['PUT'])
 def change_username_by_id(user_id):
     data = request.get_json()
