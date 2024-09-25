@@ -25,7 +25,7 @@ def get_user_name(user_id):
                     </body>
                     </html>
                     """)
-    except IndexError as e:
+    except IndexError:
         return (f"""
                 <html>
                 <body>

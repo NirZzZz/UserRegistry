@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from db_connector import create_user, modify_user, get_user, delete_user
+import re
 
 app = Flask(__name__)
 
@@ -10,7 +11,8 @@ app = Flask(__name__)
 def add_user():
     data = request.get_json()
     user_name = data.get('user_name')
-    if user_name and user_name.strip():
+    stripped_name = user_name.strip()
+    if stripped_name and re.search(r'[A-Za-z0-9]', stripped_name):
         try:
             create_user(user_name)
             return jsonify({"status": "ok", "user_added": user_name}), 200
