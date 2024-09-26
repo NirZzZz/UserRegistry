@@ -3,12 +3,12 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 import time
 
-URL = "http://127.0.0.1:5001/users/1"
+BaseURL = "http://127.0.0.1:5001/users/1"
 
 driver = webdriver.Chrome()
-driver.get(URL)
+driver.get(BaseURL)
 time.sleep(2)
-try:
+try:  # Test for name element works properly with selenium
     element = driver.find_element(By.ID, "user")
     print(f"Element found: {element.text}")
 except NoSuchElementException:
