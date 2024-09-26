@@ -1,19 +1,29 @@
 import mysql.connector
 from mysql.connector import Error
+import os
+import time
 
 
 # Create a database connection
 def create_connection():
     conn = None
-    try:
-        conn = mysql.connector.connect(
-            host='127.0.0.1',
-            port=3306,
-            user='root',
-            password='adminadmin'
-        )
-    except Error as e:
-        print(f"Error: {e}")
+    max_retries = 10
+    for attempt in range(max_retries):
+        try:
+            print(f"Attempt {attempt + 1} to connect to the database...")
+            conn = mysql.connector.connect(
+                host=os.getenv('DATABASE_HOST', 'db'),
+                port=int(os.getenv('DATABASE_PORT', 3306)),
+                user=os.getenv('DATABASE_USER', 'root'),
+                password=os.getenv('DATABASE_PASSWORD', 'adminadmin')
+            )
+            if conn.is_connected():
+                print("Successfully connected to the MySQL database.")
+                return conn
+        except Error as e:
+            print(f"Error: {e}. Retrying in 5 seconds...")
+            time.sleep(5)
+    print("Failed to connect to the MySQL database after several attempts.")
     return conn
 
 

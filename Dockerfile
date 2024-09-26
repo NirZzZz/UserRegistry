@@ -1,17 +1,18 @@
-# Use an official Python runtime as a parent image
-FROM python:3.12-slim
+FROM python:3.9-slim
 
-# Set the working directory in the container
+RUN apt-get update && \
+    apt-get install mariadb-server -y && \
+    apt install -y netcat-traditional && \
+    rm -rf /var/lib/apt/lists/* \
+
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+COPY requirements.txt .
 
-# Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose port 5000 for the Flask app
-EXPOSE 5000
+COPY . .
 
-# Define the command to run your app
-CMD ["python", "web_app.py"]
+EXPOSE 5000 5001
+
+CMD ["bash", "-c", "python3 rest_app.py & python3 web_app.py"]
