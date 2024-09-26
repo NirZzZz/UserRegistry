@@ -52,3 +52,19 @@ def delete_user(user_id):
     query = "DELETE FROM users WHERE user_id = %s;"
     execute_query(query, (user_id,))
     print(f"User with ID '{user_id}' deleted successfully!")
+
+
+def get_all_users():
+    users_list = []
+    query = "SELECT * FROM users;"
+    result = execute_query(query, fetch=True)
+    rows = result
+    for row in rows:
+        users_list.append({
+            "user_id": row[0],
+            "user_name": row[1],
+            "creation_date": row[2]
+        })
+    if result:
+        print(result)
+    return users_list
