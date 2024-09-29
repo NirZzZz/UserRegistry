@@ -60,14 +60,6 @@ jobs:
         # Wait for MySQL and Flask services to be up
         docker-compose run db-init bash -c "while ! nc -z db 3306; do sleep 1; done"
 
-    - name: Post a new user using curl
-      run: |
-        # Wait until the Flask app is up and running
-        sleep 10
-        curl -X POST -H "Content-Type: application/json" \
-          -d '{"user_name": "testuser", "creation_date": "2024-09-26"}' \
-          http://127.0.0.1:5000/users
-
     - name: Run combined tests
       run: |
         python tests/combined_testing.py
