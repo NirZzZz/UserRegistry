@@ -70,7 +70,7 @@ jobs:
 
     - name: Run combined tests
       run: |
-        python combined_testing.py
+        python tests/combined_testing.py
 
     - name: Clean up Docker containers
       if: always()
