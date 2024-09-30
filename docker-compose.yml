@@ -22,7 +22,7 @@ services:
       MYSQL_ROOT_PASSWORD: adminadmin
       MYSQL_DATABASE: users
     ports:
-      - "3307:3307"
+      - "3306:3307"
     networks:
       - userregistry_mynet
 
