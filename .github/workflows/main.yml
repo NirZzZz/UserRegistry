@@ -76,6 +76,7 @@ jobs:
         DATABASE_PASSWORD: adminadmin
         PYTHONPATH: "${{ github.workspace }}/userregistry"
       run: |
+        export PYTHONPATH="${PYTHONPATH}:$(pwd)/userregistry"
         python tests/combined_testing.py
 
     - name: Clean up Docker containers
