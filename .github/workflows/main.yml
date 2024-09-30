@@ -58,6 +58,10 @@ jobs:
         # Wait for MySQL and Flask services to be up
         docker-compose run db-init bash -c "while ! nc -z db 3306; do sleep 1; done"
 
+    - name: Check MySQL Logs
+      run: |
+        docker-compose logs db
+
     - name: Set environment variables for testing
       run: |
         export DATABASE_HOST=db
