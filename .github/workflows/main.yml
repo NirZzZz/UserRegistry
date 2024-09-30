@@ -66,7 +66,7 @@ jobs:
 
     - name: Set environment variables for testing
       run: |
-        export DATABASE_HOST=db
+        export DATABASE_HOST=mysql
         export DATABASE_PORT=3306
         export DATABASE_USER=root
         export DATABASE_PASSWORD=adminadmin
@@ -74,7 +74,7 @@ jobs:
 
     - name: Run combined tests
       env:
-        DATABASE_HOST: db
+        DATABASE_HOST: mysql
         DATABASE_PORT: 3306
         DATABASE_USER: root
         DATABASE_PASSWORD: adminadmin

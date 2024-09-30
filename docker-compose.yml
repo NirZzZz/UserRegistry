@@ -21,6 +21,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: adminadmin
       MYSQL_DATABASE: users
+    ports:
+      - "0:3306"
     networks:
       - userregistry_mynet
 
@@ -42,4 +44,4 @@ services:
 
 networks:
   userregistry_mynet:
-    external: true
+    external: false
