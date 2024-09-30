@@ -8,4 +8,4 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 EXPOSE 5000 5001
-CMD ["bash", "-c", "python3 rest_app.py & python3 web_app.py & python3 create_table.py"]
+CMD ["bash", "-c", "python3 rest_app.py & python3 web_app.py"]
