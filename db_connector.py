@@ -54,6 +54,7 @@ def delete_user(user_id):
     print(f"User with ID '{user_id}' deleted successfully!")
 
 
+# Retrieve all users from the users table
 def get_all_users():
     users_list = []
     query = "SELECT * FROM users;"
