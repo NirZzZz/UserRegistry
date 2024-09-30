@@ -16,7 +16,7 @@ jobs:
       mysql:
         image: mysql:8.0
         ports:
-          - 3306:3307
+          - 3308:3306
         env:
           MYSQL_ROOT_PASSWORD: adminadmin
           MYSQL_DATABASE: users
@@ -58,12 +58,12 @@ jobs:
     - name: Wait for services to be up
       run: |
         # Wait for MySQL and Flask services to be up
-        docker-compose run db-init bash -c "while ! nc -z db 3307; do sleep 1; done"
+        docker-compose run db-init bash -c "while ! nc -z db 3306; do sleep 1; done"
 
     - name: Set environment variables for testing
       run: |
         export DATABASE_HOST=db
-        export DATABASE_PORT=3307
+        export DATABASE_PORT=3306
         export DATABASE_USER=root
         export DATABASE_PASSWORD=adminadmin
         echo "Environment variables set!"
@@ -71,7 +71,7 @@ jobs:
     - name: Run combined tests
       env:
         DATABASE_HOST: db
-        DATABASE_PORT: 3307
+        DATABASE_PORT: 3306
         DATABASE_USER: root
         DATABASE_PASSWORD: adminadmin
       run: |
