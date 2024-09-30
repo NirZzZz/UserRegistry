@@ -44,4 +44,4 @@ services:
 
 networks:
   userregistry_mynet:
-    driver: bridge
+    external: true
