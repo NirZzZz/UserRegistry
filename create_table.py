@@ -12,7 +12,7 @@ def create_connection():
         try:
             print(f"Attempt {attempt + 1} to connect to the database...")
             conn = mysql.connector.connect(
-                host=os.getenv('DATABASE_HOST', 'db'),
+                host=os.getenv('DATABASE_HOST', 'mysql'),
                 port=int(os.getenv('DATABASE_PORT', 3306)),
                 user=os.getenv('DATABASE_USER', 'root'),
                 password=os.getenv('DATABASE_PASSWORD', 'adminadmin')
