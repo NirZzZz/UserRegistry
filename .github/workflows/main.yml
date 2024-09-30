@@ -62,6 +62,7 @@ jobs:
 
     - name: Run combined tests
       run: |
+        export PYTHONPATH="${PYTHONPATH}:$(pwd)/userregistry"
         python tests/combined_testing.py
 
     - name: Clean up Docker containers
