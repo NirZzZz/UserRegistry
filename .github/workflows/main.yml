@@ -60,9 +60,22 @@ jobs:
         # Wait for MySQL and Flask services to be up
         docker-compose run db-init bash -c "while ! nc -z db 3306; do sleep 1; done"
 
-    - name: Run combined tests
+    - name: Set environment variables for testing
       run: |
-        export PYTHONPATH="${PYTHONPATH}:$(pwd)/userregistry"
+        export DATABASE_HOST=db
+        export DATABASE_PORT=3306
+        export DATABASE_USER=root
+        export DATABASE_PASSWORD=adminadmin
+        echo "Environment variables set."
+
+    - name: Run combined tests
+      env:
+        DATABASE_HOST: db
+        DATABASE_PORT: 3306
+        DATABASE_USER: root
+        DATABASE_PASSWORD: adminadmin
+        PYTHONPATH: "${{ github.workspace }}/userregistry"
+      run: |
         python tests/combined_testing.py
 
     - name: Clean up Docker containers
