@@ -3,7 +3,7 @@ services:
     build: .
     container_name: flask-app
     depends_on:
-      - db
+      - mysql
     environment:
       - DATABASE_HOST=db
       - DATABASE_PORT=3306
@@ -15,7 +15,7 @@ services:
     networks:
       - userregistry_mynet
 
-  db:
+  mysql:
     image: mysql:8.0
     container_name: mysql-db
     environment:
@@ -32,7 +32,7 @@ services:
       dockerfile: Dockerfile
     container_name: db-init
     depends_on:
-      - db
+      - mysql
     environment:
       - DATABASE_HOST=db
       - DATABASE_PORT=3306
