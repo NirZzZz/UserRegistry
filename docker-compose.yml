@@ -21,6 +21,8 @@ services:
       - "0:3306"
 
   db-init:
+    build:
+      context: .
     container_name: db-init
     depends_on:
       - db
