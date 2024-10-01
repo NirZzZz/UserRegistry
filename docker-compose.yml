@@ -7,9 +7,6 @@ services:
     ports:
       - "0:5000"
       - "0:5001"
-    command:
-      - "python rest_app.py"
-      - "python web_app.py"
 
   db:
     image: mysql:8.0
@@ -31,7 +28,6 @@ services:
       - DATABASE_PORT=3306
       - DATABASE_USER=root
       - DATABASE_PASSWORD=adminadmin
-    command: "python create_table.py"
 
 networks:
   default:
