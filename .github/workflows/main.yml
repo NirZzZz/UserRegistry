@@ -40,10 +40,6 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y docker-compose
 
-    - name: Create Docker network
-      run: |
-        docker network create userregistry_mynet || true
-
     - name: Build Docker containers
       run: |
         docker-compose down -v || true
@@ -52,7 +48,7 @@ jobs:
 
     - name: Wait for services to be up
       run: |
-        docker-compose run db-init bash -c "while ! nc -z mysql 3306; do sleep 1; done"
+        docker-compose run db-init bash -c "while ! nc -z db 3306; do sleep 1; done"
 
     - name: Check MySQL Logs
       run: |

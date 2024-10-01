@@ -34,5 +34,4 @@ services:
     command: "python create_table.py"
 
 networks:
-  default:
-    driver: custom-driver-1
+  default
