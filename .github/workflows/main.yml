@@ -65,7 +65,7 @@ jobs:
         DATABASE_PORT: 3306
         DATABASE_USER: root
         DATABASE_PASSWORD: adminadmin
-        PYTHONPATH: "${{ github.workspace }}/userregistry"
+        PATH: "${{ github.workspace }}/userregistry"
       run: |
         python tests/combined_testing.py
 
