@@ -7,8 +7,6 @@ services:
     ports:
       - "0:5000"
       - "0:5001"
-    networks:
-      - userregistry_mynet
     command:
       - "python rest_app.py"
       - "python web_app.py"
@@ -21,12 +19,8 @@ services:
       MYSQL_DATABASE: users
     ports:
       - "0:3306"
-    networks:
-      - userregistry_mynet
 
   db-init:
-    build:
-      context: .
     container_name: db-init
     depends_on:
       - db
@@ -35,6 +29,8 @@ services:
       - DATABASE_PORT=3306
       - DATABASE_USER=root
       - DATABASE_PASSWORD=adminadmin
-    networks:
-      - userregistry_mynet
     command: "python create_table.py"
+
+networks:
+  default:
+    driver: custom-driver-1
