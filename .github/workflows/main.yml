@@ -70,7 +70,7 @@ jobs:
         echo "Current Working Directory: $(pwd)"
         echo "Available modules:"
         python -c "import sys; print(sys.path)"
-        python -c "from userregistry import db_connector; print('db_connector imported successfully!')"
+        python -c "from UserRegistry import db_connector; print('db_connector imported successfully!')"
 
     - name: Add debugging to the test script
       run: |
