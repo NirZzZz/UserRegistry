@@ -34,4 +34,5 @@ services:
     command: "python create_table.py"
 
 networks:
-  default
+  default:
+    driver: bridge
