@@ -3,19 +3,17 @@ services:
     build: .
     container_name: flask-app
     depends_on:
-      - mysql
-    environment:
-      - DATABASE_HOST=mysql
-      - DATABASE_PORT=3306
-      - DATABASE_USER=root
-      - DATABASE_PASSWORD=adminadmin
+      - db
     ports:
-      - "5000:5000"
-      - "5001:5001"
+      - "0:5000"
+      - "0:5001"
     networks:
       - userregistry_mynet
+    command:
+      - "python rest_app.py"
+      - "python web_app.py"
 
-  mysql:
+  db:
     image: mysql:8.0
     container_name: mysql-db
     environment:
@@ -29,19 +27,14 @@ services:
   db-init:
     build:
       context: .
-      dockerfile: Dockerfile
     container_name: db-init
     depends_on:
-      - mysql
+      - db
     environment:
-      - DATABASE_HOST=mysql
+      - DATABASE_HOST=db
       - DATABASE_PORT=3306
       - DATABASE_USER=root
       - DATABASE_PASSWORD=adminadmin
     networks:
       - userregistry_mynet
     command: "python create_table.py"
-
-networks:
-  userregistry_mynet:
-    external: false
