@@ -9,7 +9,7 @@ import time
 try:
     # Test for posting new user to users database
     name = generate_name()
-    URL = "http://127.0.0.1:5000/users"
+    URL = "http://0.0.0.0:5000/users"
     payload = {"user_name": f"{name}"}
     headers = {'Content-Type': 'application/json'}
     r = requests.post(URL, json=payload, headers=headers)
@@ -23,7 +23,7 @@ try:
             user_id = user['user_id']
             break
 
-    BaseURL = f"http://127.0.0.1:5001/users/{user_id}"
+    BaseURL = f"http://0.0.0.0:5001/users/{user_id}"
 
     driver = webdriver.Chrome()
     driver.get(BaseURL)

@@ -55,9 +55,16 @@ jobs:
       run: |
         docker-compose run db-init bash -c "while ! nc -z db 3306; do sleep 1; done"
 
-    - name: Check MySQL Logs
+    - name: Check Docker Compose Logs
       run: |
-        docker-compose logs db
+        docker-compose logs
+        
+        - name: Check if Flask is accessible
+
+    - name: Check if Flask is accessible
+      run: |
+        echo "Checking Flask application status..."
+        curl http://127.0.0.1:5000 || echo "Flask app is not accessible on 127.0.0.1:5000"
 
     - name: Print workspace directory structure
       run: |
