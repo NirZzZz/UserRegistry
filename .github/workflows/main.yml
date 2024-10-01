@@ -63,15 +63,6 @@ jobs:
       run: |
         ls -R
 
-    - name: Debug Python Environment
-      run: |
-        # Print Python path and verify import of db_connector
-        echo "Python Path: $PYTHONPATH"
-        echo "Current Working Directory: $(pwd)"
-        echo "Available modules:"
-        python -c "import sys; print(sys.path)"
-        python -c "from UserRegistry import db_connector; print('db_connector imported successfully!')"
-
     - name: Add debugging to the test script
       run: |
         # Inject debugging code into combined_testing.py
