@@ -5,17 +5,17 @@ services:
     depends_on:
       - db
     ports:
-      - "0:5000"
-      - "0:5001"
+      - "0:${REST_PORT}"
+      - "0:${WEB_PORT}"
 
   db:
     image: mysql:8.0
     container_name: mysql-db
     environment:
-      MYSQL_ROOT_PASSWORD: adminadmin
+      MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}"
       MYSQL_DATABASE: users
     ports:
-      - "0:3306"
+      - "0:${DATABASE_PORT}"
 
   db-init:
     build:
@@ -24,10 +24,10 @@ services:
     depends_on:
       - db
     environment:
-      - DATABASE_HOST=db
-      - DATABASE_PORT=3306
-      - DATABASE_USER=root
-      - DATABASE_PASSWORD=adminadmin
+      - DATABASE_HOST: "${DATABASE_HOST}"
+      - DATABASE_PORT: "${DATABASE_PORT}"
+      - DATABASE_USER: "${DATABASE_USER}"
+      - DATABASE_PASSWORD: "${DATABASE_PASSWORD}"
 
 networks:
   default:

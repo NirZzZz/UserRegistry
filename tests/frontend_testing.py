@@ -1,10 +1,15 @@
+import os
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 import time
+from dotenv import load_dotenv
 
-BaseURL = "http://127.0.0.1:5001/users/1"
+load_dotenv()
 
+BaseURL = f"{os.getenv("WEB_URL")}1"
+print(BaseURL)
 driver = webdriver.Chrome()
 driver.get(BaseURL)
 time.sleep(2)

@@ -12,17 +12,6 @@ __pycache__
 .idea/vcs.xml
 roles/elasticsearch/files/files.iml
 .gradle/
-
-#  Local .terraform directories
-**/.terraform/*
-*/.terraform.state.d/*
-# .tfstate files
-*.tfstate
-*.tfstate.*
-
-*.tgz
-lambda.zip
-.vscode
-na_*.db
+.env
 venv/
 serverless/terraform/projects/lines_counter/lines_counter.zip

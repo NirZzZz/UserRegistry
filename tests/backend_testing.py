@@ -1,10 +1,15 @@
+import os
+
 import requests
 from names_generator import generate_name
 from db_connector import get_all_users, delete_user
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Test for posting new user to users database
 name = generate_name()
-URL = "http://127.0.0.1:5000/users"
+URL = os.getenv("REST_URL")
 payload = {"user_name": f"{name}"}
 headers = {'Content-Type': 'application/json'}
 r = requests.post(URL, json=payload, headers=headers)
@@ -14,7 +19,7 @@ all_users = get_all_users()
 user_id = None
 for user in all_users:
     if user['user_name'] == name:
-        print(f"{name} found, test finish successfully")
+        print(f"{name} found, backend test finish successfully")
         user_id = user['user_id']
         break
 

@@ -1,6 +1,9 @@
+import os
 from flask import Flask
 from db_connector import get_user
+from dotenv import load_dotenv
 
+load_dotenv()
 app = Flask(__name__)
 
 
@@ -36,4 +39,4 @@ def get_user_name(user_id):
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5001, debug=True)
+    app.run(host=os.getenv("HOST"), port=os.getenv("WEB_PORT"), debug=True)

@@ -2,6 +2,9 @@ import mysql.connector
 from mysql.connector import Error
 import os
 import time
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 # Create a database connection
@@ -12,10 +15,10 @@ def create_connection():
         try:
             print(f"Attempt {attempt + 1} to connect to the database...")
             conn = mysql.connector.connect(
-                host=os.getenv('DATABASE_HOST'),
-                port=int(os.getenv('DATABASE_PORT')),
-                user=os.getenv('DATABASE_USER'),
-                password=os.getenv('DATABASE_PASSWORD')
+                host=os.getenv("DATABASE_HOST"),
+                port=int(os.getenv("DATABASE_PORT")),
+                user=os.getenv("DATABASE_USER"),
+                password=os.getenv("DATABASE_PASSWORD")
             )
             if conn.is_connected():
                 print("Successfully connected to the MySQL database.")

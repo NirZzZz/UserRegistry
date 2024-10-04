@@ -1,7 +1,10 @@
+import os
 from flask import Flask, request, jsonify
 from db_connector import create_user, modify_user, get_user, delete_user
 import re
+from dotenv import load_dotenv
 
+load_dotenv()
 app = Flask(__name__)
 
 
@@ -65,4 +68,4 @@ def delete_user_by_id(user_id):
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host=os.getenv("HOST"), port=os.getenv("REST_PORT"), debug=True)
