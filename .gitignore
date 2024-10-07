@@ -1,17 +1,55 @@
-*.retry
-.DS_Store
-*.swp
-*.pyc
-.cache
-__pycache__
-**/.idea/
-.idea/infrastructure.iml
-.idea/misc.xml
-.idea/modules.xml
-.idea/workspace.xml
-.idea/vcs.xml
-roles/elasticsearch/files/files.iml
-.gradle/
-.env
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
 venv/
-serverless/terraform/projects/lines_counter/lines_counter.zip
+*.venv
+ENV/
+env/
+venv.bak/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Environment variables
+.env
+.env.*
+
+# PyCharm IDE files
+.idea/
+
+# Flask-specific files
+instance/
+.webassets-cache
+
+# MySQL generated files
+*.sql
+*.db
+
+# Docker ignore file
+Dockerfile
+.dockerignore
+
+# Test results and coverage
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+nosetests.xml
+coverage.xml
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# OS-specific files
+.DS_Store
+Thumbs.db
