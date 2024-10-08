@@ -29,7 +29,6 @@ try:
             break
 
     BaseURL = f"{os.getenv("WEB_URL")}{user_id}"
-    print(BaseURL)
 
     driver = webdriver.Chrome()
     driver.get(BaseURL)
@@ -46,7 +45,7 @@ try:
     # If user is found, delete by user_id
     if user_id is not None:
         end_test = delete_user(user_id)
-        print(f"User {name} with ID {user_id} deleted successfully.")
+        print(f"User {name} with ID {user_id} deleted successfully, combined test finish successfully!")
     else:
         print(f"New user not found in DB, user: {name}")
 except Exception:
