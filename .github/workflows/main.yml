@@ -16,9 +16,9 @@ jobs:
       db:
         image: mysql:8.0
         ports:
-          - 3306:3306
+          - ${{ secrets.DATABASE_PORT }}:${{ secrets.DATABASE_PORT }}
         env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           MYSQL_DATABASE: users
 
     steps:
@@ -35,6 +35,21 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y docker-compose
 
+    - name: Create .env file
+      run: |
+        echo "DATABASE_HOST=${{ secrets.DATABASE_HOST }}" >> .env
+        echo "DATABASE_PORT: ${{ secrets.DATABASE_PORT }} >> .env
+        echo "DATABASE_USER: ${{ secrets.DATABASE_USER }} >> .env
+        echo "DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }} >> .env
+        echo "DATABASE_HOST=${{ secrets.HOST }}" >> .env
+        echo "DATABASE_HOST=${{ secrets.DATABASE_PORT }} >> .env
+        echo "DATABASE_HOST=${{ secrets.DATABASE_USER }} >> .env
+        echo "DATABASE_HOST=${{ secrets.DATABASE_PASSWORD }} >> .env
+        echo "DATABASE_HOST=${{ secrets.REST_PORT }} >> .env
+        echo "DATABASE_HOST=${{ secrets.WEB_PORT }} >> .env
+        echo "DATABASE_HOST=${{ secrets.REST_URL }} >> .env
+        echo "DATABASE_HOST=${{ secrets.WEB_URL }} >> .env
+
     - name: Build Docker containers
       run: |
         docker-compose down -v || true
@@ -43,18 +58,16 @@ jobs:
 
     - name: Wait for services to be up
       run: |
-        docker-compose run db-init bash -c "while ! nc -z db 3306; do sleep 1; done"
+        docker-compose run db-init bash -c "while ! nc -z db ${{ secrets.DATABASE_PORT }}; do sleep 1; done"
 
     - name: Check Docker Compose Logs
       run: |
         docker-compose logs
-        
-        - name: Check if Flask is accessible
 
     - name: Check if Flask is accessible
       run: |
         echo "Checking Flask application status..."
-        curl http://127.0.0.1:5000 || echo "Flask app is not accessible on 127.0.0.1:5000"
+        curl ${{ secrets.REST_URL }} || echo "Flask app is not accessible on ${{ secrets.REST_URL }}"
 
     - name: Print workspace directory structure
       run: |
@@ -67,12 +80,6 @@ jobs:
         sed -i '1 i\import logging\nlogging.basicConfig(level=logging.DEBUG)' tests/combined_testing.py
 
     - name: Run combined tests
-      env:
-        DATABASE_HOST: db
-        DATABASE_PORT: 3306
-        DATABASE_USER: root
-        DATABASE_PASSWORD: adminadmin
-        PYTHONPATH: "${{ github.workspace }}"
       run: |
         echo "Running combined tests with additional debug logging"
         python tests/combined_testing.py || {
