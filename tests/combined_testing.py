@@ -28,10 +28,8 @@ try:
             break
 
     BaseURL = f"{os.getenv("WEB_URL")}{user_id}"
-
     driver = webdriver.Chrome()
     driver.get(BaseURL)
-    time.sleep(2)
 
     # Test for name element works properly with selenium
     try:

@@ -35,10 +35,6 @@ instance/
 *.sql
 *.db
 
-# Docker ignore file
-Dockerfile
-.dockerignore
-
 # Test results and coverage
 .coverage
 .coverage.*
