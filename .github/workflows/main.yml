@@ -14,23 +14,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    env:
-      DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
-      DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
-      DATABASE_USER: ${{ secrets.DATABASE_USER }}
-      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
-      REST_PORT: ${{ secrets.REST_PORT }}
-      WEB_PORT: ${{ secrets.WEB_PORT }}
-      REST_URL: ${{ secrets.REST_URL }}
-      WEB_URL: ${{ secrets.WEB_URL }}
-
     services:
       db:
         image: mysql:8.0
         ports:
-          - "${{ env.DATABASE_PORT }}:${{ env.DATABASE_PORT }}"
+          - "${{ secrets.DATABASE_PORT }}:${{ secrets.DATABASE_PORT }}"
         env:
-          MYSQL_ROOT_PASSWORD: ${{ env.DATABASE_PASSWORD }}
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           MYSQL_DATABASE: users
 
     steps:
@@ -49,14 +39,18 @@ jobs:
 
     - name: Create .env file
       run: |
-        echo "DATABASE_HOST=${{ env.DATABASE_HOST }}" >> .env
-        echo "DATABASE_PORT=${{ env.DATABASE_PORT }}" >> .env
-        echo "DATABASE_USER=${{ env.DATABASE_USER }}" >> .env
-        echo "DATABASE_PASSWORD=${{ env.DATABASE_PASSWORD }}" >> .env
-        echo "REST_PORT=${{ env.REST_PORT }}" >> .env
-        echo "WEB_PORT=${{ env.WEB_PORT }}" >> .env
-        echo "REST_URL=${{ env.REST_URL }}" >> .env
-        echo "WEB_URL=${{ env.WEB_URL }}" >> .env
+        echo "DATABASE_HOST=${{ secrets.DATABASE_HOST }}" >> .env
+        echo "DATABASE_PORT: ${{ secrets.DATABASE_PORT }} >> .env
+        echo "DATABASE_USER: ${{ secrets.DATABASE_USER }} >> .env
+        echo "DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }} >> .env
+        echo "DATABASE_HOST=${{ secrets.HOST }}" >> .env
+        echo "DATABASE_HOST=${{ secrets.DATABASE_PORT }} >> .env
+        echo "DATABASE_HOST=${{ secrets.DATABASE_USER }} >> .env
+        echo "DATABASE_HOST=${{ secrets.DATABASE_PASSWORD }} >> .env
+        echo "DATABASE_HOST=${{ secrets.REST_PORT }} >> .env
+        echo "DATABASE_HOST=${{ secrets.WEB_PORT }} >> .env
+        echo "DATABASE_HOST=${{ secrets.REST_URL }} >> .env
+        echo "DATABASE_HOST=${{ secrets.WEB_URL }} >> .env
 
     - name: Build Docker containers
       run: |
@@ -66,7 +60,7 @@ jobs:
 
     - name: Wait for services to be up
       run: |
-        docker-compose run db-init bash -c "while ! nc -z db ${{ env.DATABASE_PORT }}; do sleep 1; done"
+        docker-compose run db-init bash -c "while ! nc -z db ${{ secrets.DATABASE_PORT }}; do sleep 1; done"
 
     - name: Check Docker Compose Logs
       run: |
@@ -75,7 +69,7 @@ jobs:
     - name: Check if Flask is accessible
       run: |
         echo "Checking Flask application status..."
-        curl ${{ env.REST_URL }} || echo "Flask app is not accessible on ${{ env.REST_URL }}"
+        curl ${{ secrets.REST_URL }} || echo "Flask app is not accessible on ${{ secrets.REST_URL }}"
 
     - name: Print workspace directory structure
       run: |
