@@ -8,6 +8,7 @@ on:
   pull_request:
     branches:
       - main
+      - development
 
 jobs:
   test:
@@ -49,15 +50,15 @@ jobs:
 
     - name: Create .env file
       run: |
-        echo "DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}" >> .env
-        echo "DATABASE_HOST=${{ secrets.HOST }}" >> .env
-        echo "DATABASE_PORT=${{ secrets.DATABASE_PORT }}" >> .env
-        echo "DATABASE_USER=${{ secrets.DATABASE_USER }}" >> .env
-        echo "HOST=${{ secrets.HOST }}" >> .env
-        echo "REST_PORT=${{ secrets.REST_PORT }}" >> .env
-        echo "WEB_PORT=${{ secrets.WEB_PORT }}" >> .env
-        echo "REST_URL=${{ secrets.REST_URL }}" >> .env
-        echo "WEB_URL=${{ secrets.WEB_URL }}" >> .env
+        echo DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }} >> .env
+        echo DATABASE_HOST=${{ secrets.HOST }} >> .env
+        echo DATABASE_PORT=${{ secrets.DATABASE_PORT }} >> .env
+        echo DATABASE_USER=${{ secrets.DATABASE_USER }} >> .env
+        echo HOST=${{ secrets.HOST }} >> .env
+        echo REST_PORT=${{ secrets.REST_PORT }} >> .env
+        echo WEB_PORT=${{ secrets.WEB_PORT }} >> .env
+        echo REST_URL=${{ secrets.REST_URL }} >> .env
+        echo WEB_URL=${{ secrets.WEB_URL }} >> .env
 
     - name: Build Docker containers
       run: |
