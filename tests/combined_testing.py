@@ -27,7 +27,7 @@ try:
             user_id = user['user_id']
             break
 
-    BaseURL = f"{os.getenv("WEB_URL")}{user_id}"
+    BaseURL = f'{os.getenv("WEB_URL")}{user_id}'
     driver = webdriver.Chrome()
     driver.get(BaseURL)
 
