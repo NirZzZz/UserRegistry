@@ -86,6 +86,8 @@ jobs:
         sed -i '1 i\import logging\nlogging.basicConfig(level=logging.DEBUG)' tests/combined_testing.py
 
     - name: Run combined tests
+      env:
+        PYTHONPATH: "${{ github.workspace }}"
       run: |
         echo "Running combined tests with additional debug logging"
         python tests/combined_testing.py || {
