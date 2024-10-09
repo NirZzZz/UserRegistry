@@ -1,5 +1,4 @@
 import os
-
 import requests
 from names_generator import generate_name
 from db_connector import get_all_users, delete_user
