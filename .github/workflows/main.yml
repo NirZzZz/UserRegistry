@@ -18,7 +18,7 @@ jobs:
       db:
         image: mysql:8.0
         ports:
-          - "${{ secrets.DATABASE_PORT }}:${{ secrets.DATABASE_PORT }}"
+          - 3306:3306
         env:
           MYSQL_ROOT_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           MYSQL_DATABASE: users
@@ -44,13 +44,13 @@ jobs:
         echo "DATABASE_USER: ${{ secrets.DATABASE_USER }} >> .env
         echo "DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }} >> .env
         echo "DATABASE_HOST=${{ secrets.HOST }}" >> .env
-        echo "DATABASE_HOST=${{ secrets.DATABASE_PORT }} >> .env
-        echo "DATABASE_HOST=${{ secrets.DATABASE_USER }} >> .env
-        echo "DATABASE_HOST=${{ secrets.DATABASE_PASSWORD }} >> .env
-        echo "DATABASE_HOST=${{ secrets.REST_PORT }} >> .env
-        echo "DATABASE_HOST=${{ secrets.WEB_PORT }} >> .env
-        echo "DATABASE_HOST=${{ secrets.REST_URL }} >> .env
-        echo "DATABASE_HOST=${{ secrets.WEB_URL }} >> .env
+        echo "DATABASE_PORT=${{ secrets.DATABASE_PORT }} >> .env
+        echo "DATABASE_USER=${{ secrets.DATABASE_USER }} >> .env
+        echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} >> .env
+        echo "REST_PORT=${{ secrets.REST_PORT }} >> .env
+        echo "WEB_PORT=${{ secrets.WEB_PORT }} >> .env
+        echo "REST_URL=${{ secrets.REST_URL }} >> .env
+        echo "WEB_URL=${{ secrets.WEB_URL }} >> .env
 
     - name: Build Docker containers
       run: |
