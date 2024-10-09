@@ -66,18 +66,9 @@ jobs:
         docker-compose build
         docker-compose up -d
 
-    - name: Wait for services to be up
-      run: |
-        docker-compose run db-init bash -c "while ! nc -z db ${{ secrets.DATABASE_PORT }}; do sleep 1; done"
-
     - name: Check Docker Compose Logs
       run: |
         docker-compose logs
-
-    - name: Check if Flask is accessible
-      run: |
-        echo "Checking Flask application status..."
-        curl ${{ secrets.REST_URL }} || echo "Flask app is not accessible on ${{ secrets.REST_URL }}"
 
     - name: Print workspace directory structure
       run: |
