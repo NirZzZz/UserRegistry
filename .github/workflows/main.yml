@@ -29,7 +29,7 @@ jobs:
       db:
         image: mysql:8.0
         ports:
-          - 3307:3306
+          - 3306:3306
         env:
           MYSQL_ROOT_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           MYSQL_DATABASE: users
@@ -65,6 +65,11 @@ jobs:
         docker-compose down -v || true
         docker-compose build
         docker-compose up -d
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
     - name: Check Docker Compose Logs
       run: |
