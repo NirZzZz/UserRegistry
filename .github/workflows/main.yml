@@ -44,7 +44,6 @@ jobs:
         python-version: '3.9'
 
     - name: setup-chromedriver
-      uses: actions/setup-chromedriver@v2
       run: |
         export DISPLAY=:99
         chromedriver --url-base=/wd/hub &
