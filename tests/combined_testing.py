@@ -26,11 +26,12 @@ try:
             print(f"{name} found, backend test finish successfully")
             user_id = user['user_id']
             break
-
+    print(user_id)
+    print(os.getenv('WEB_URL'))
     BaseURL = f"{os.getenv('WEB_URL')}{user_id}"
+    print(BaseURL)
     driver = webdriver.Chrome()
     driver.get(BaseURL)
-    print(BaseURL)
 
     # Test for name element works properly with selenium
     try:
