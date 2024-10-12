@@ -30,6 +30,7 @@ try:
     BaseURL = f"{os.getenv('WEB_URL')}{user_id}"
     driver = webdriver.Chrome()
     driver.get(BaseURL)
+    print(BaseURL)
 
     # Test for name element works properly with selenium
     try:
