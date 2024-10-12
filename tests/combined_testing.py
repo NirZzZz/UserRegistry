@@ -3,9 +3,9 @@ import requests
 from names_generator import generate_name
 from db_connector import get_all_users, delete_user
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-import time
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -26,11 +26,11 @@ try:
             print(f"{name} found, backend test finish successfully")
             user_id = user['user_id']
             break
-    print(user_id)
-    print(os.getenv('WEB_URL'))
+
     BaseURL = f"{os.getenv('WEB_URL')}{user_id}"
-    print(BaseURL)
-    driver = webdriver.Chrome()
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    driver = webdriver.Chrome(options=chrome_options)
     driver.get(BaseURL)
 
     # Test for name element works properly with selenium
