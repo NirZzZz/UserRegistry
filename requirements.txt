@@ -1,6 +1,7 @@
 Flask~=3.0.3
 mysql-connector-python~=9.0.0
 selenium~=4.25.0
+webdriver-manager
 requests~=2.32.3
 names_generator~=0.2.0
 python-dotenv~=1.0.1
