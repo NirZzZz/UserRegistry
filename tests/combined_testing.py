@@ -3,10 +3,11 @@ import requests
 from names_generator import generate_name
 from db_connector import get_all_users, delete_user
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromiumService
+from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.core.os_manager import ChromeType
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from dotenv import load_dotenv
@@ -34,12 +35,15 @@ try:
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("window-size=1400,600")
-    driver = webdriver.Chrome(options=chrome_options, service=ChromiumService(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()))
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    driver = webdriver.Chrome(options=chrome_options, service=ChromeService(ChromeDriverManager().install()))
     driver.get(BaseURL)
+    delay = 30
 
     # Test for name element works properly with selenium
     try:
-        element = driver.find_element(By.ID, "user")
+        element = WebDriverWait(driver, delay).until(ec.presence_of_element_located((By.ID, "user")))
         print(f"Element found: {element.text}, frontend test finish successfully")
     except NoSuchElementException:
         print("Element not found.")
