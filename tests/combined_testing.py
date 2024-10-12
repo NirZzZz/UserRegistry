@@ -39,7 +39,7 @@ try:
     chrome_options.add_argument("--disable-dev-shm-usage")
     driver = webdriver.Chrome(options=chrome_options, service=ChromeService(ChromeDriverManager().install()))
     driver.get(BaseURL)
-    delay = 30
+    delay = 2
 
     # Test for name element works properly with selenium
     try:
