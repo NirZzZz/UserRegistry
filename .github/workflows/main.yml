@@ -80,7 +80,7 @@ jobs:
       env:
         PYTHONPATH: "${{ github.workspace }}"
       run: |
-        python tests/combined_testing.py || {
+        python tests/combined_testing.py
 
     - name: Clean up Docker containers
       if: always()
