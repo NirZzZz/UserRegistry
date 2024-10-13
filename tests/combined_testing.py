@@ -3,8 +3,9 @@ import requests
 from names_generator import generate_name
 from db_connector import get_all_users, delete_user
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.chrome.service import Service as ChromiumService
 from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.core.os_manager import ChromeType
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
@@ -37,7 +38,8 @@ try:
     chrome_options.add_argument("window-size=1400,600")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Chrome(options=chrome_options, service=ChromeService(ChromeDriverManager().install()))
+    driver = webdriver.Chrome(options=chrome_options, service=ChromiumService(ChromeDriverManager(
+        chrome_type=ChromeType.CHROMIUM).install()))
     driver.get(BaseURL)
     delay = 2
 
