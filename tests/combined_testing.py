@@ -3,9 +3,11 @@ import requests
 from names_generator import generate_name
 from db_connector import get_all_users, delete_user
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
-import time
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -27,13 +29,27 @@ try:
             user_id = user['user_id']
             break
 
-    BaseURL = f"{os.getenv("WEB_URL")}{user_id}"
-    driver = webdriver.Chrome()
+    BaseURL = f"{os.getenv('WEB_URL')}{user_id}"
+    chrome_options = Options()
+    options = [
+        "--headless",
+        "--disable-gpu",
+        "--window-size=1920,1200",
+        "--ignore-certificate-errors",
+        "--disable-extensions",
+        "--no-sandbox",
+        "--disable-dev-shm-usage"
+    ]
+    for option in options:
+        chrome_options.add_argument(option)
+
+    driver = webdriver.Chrome(options=chrome_options)
     driver.get(BaseURL)
+    delay = 2
 
     # Test for name element works properly with selenium
     try:
-        element = driver.find_element(By.ID, "user")
+        element = WebDriverWait(driver, delay).until(ec.presence_of_element_located((By.ID, "user")))
         print(f"Element found: {element.text}, frontend test finish successfully")
     except NoSuchElementException:
         print("Element not found.")

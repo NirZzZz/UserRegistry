@@ -4,21 +4,34 @@ on:
   push:
     branches:
       - main
+      - development
   pull_request:
     branches:
       - main
+      - development
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+      DATABASE_HOST: ${{ secrets.HOST }}
+      DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
+      DATABASE_USER: ${{ secrets.DATABASE_USER }}
+      HOST: ${{ secrets.HOST }}
+      REST_PORT: ${{ secrets.REST_PORT }}
+      WEB_PORT: ${{ secrets.WEB_PORT }}
+      REST_URL: ${{ secrets.REST_URL }}
+      WEB_URL: ${{ secrets.WEB_URL }}
+
     services:
       db:
         image: mysql:8.0
         ports:
-          - 3306:3306
+          - 3307:3306
         env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_ROOT_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           MYSQL_DATABASE: users
 
     steps:
@@ -35,51 +48,39 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y docker-compose
 
+    - name: Create .env file
+      run: |
+        echo DATABASE_PASSWORD="${{ secrets.DATABASE_PASSWORD }}" >> .env
+        echo DATABASE_HOST="${{ secrets.HOST }}" >> .env
+        echo DATABASE_PORT="${{ secrets.DATABASE_PORT }}" >> .env
+        echo DATABASE_USER="${{ secrets.DATABASE_USER }}" >> .env
+        echo HOST="${{ secrets.HOST }}" >> .env
+        echo REST_PORT="${{ secrets.REST_PORT }}" >> .env
+        echo WEB_PORT="${{ secrets.WEB_PORT }}" >> .env
+        echo REST_URL="${{ secrets.REST_URL }}" >> .env
+        echo WEB_URL="${{ secrets.WEB_URL }}" >> .env
+
     - name: Build Docker containers
       run: |
         docker-compose down -v || true
         docker-compose build
         docker-compose up -d
 
-    - name: Wait for services to be up
+    - name: Install dependencies
       run: |
-        docker-compose run db-init bash -c "while ! nc -z db 3306; do sleep 1; done"
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install chromedriver-py
 
     - name: Check Docker Compose Logs
       run: |
         docker-compose logs
-        
-        - name: Check if Flask is accessible
-
-    - name: Check if Flask is accessible
-      run: |
-        echo "Checking Flask application status..."
-        curl http://127.0.0.1:5000 || echo "Flask app is not accessible on 127.0.0.1:5000"
-
-    - name: Print workspace directory structure
-      run: |
-        ls -R
-
-    - name: Add debugging to the test script
-      run: |
-        # Inject debugging code into combined_testing.py
-        echo "Adding debug logging to combined_testing.py"
-        sed -i '1 i\import logging\nlogging.basicConfig(level=logging.DEBUG)' tests/combined_testing.py
 
     - name: Run combined tests
       env:
-        DATABASE_HOST: db
-        DATABASE_PORT: 3306
-        DATABASE_USER: root
-        DATABASE_PASSWORD: adminadmin
         PYTHONPATH: "${{ github.workspace }}"
       run: |
-        echo "Running combined tests with additional debug logging"
-        python tests/combined_testing.py || {
-          echo "Test failed! Capturing traceback.";
-          cat tests/combined_testing.py;
-          exit 1;
-        }
+        python tests/combined_testing.py
 
     - name: Clean up Docker containers
       if: always()
