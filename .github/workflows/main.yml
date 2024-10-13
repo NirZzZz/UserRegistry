@@ -92,12 +92,12 @@ jobs:
       run: |
         python tests/combined_testing.py
 
-    - name: Clean up Docker containers
-      if: always()
-      run: |
-        docker-compose down -v
-
     - name: Push Docker image to DockerHub
       run: |
         docker tag $DOCKER_IMAGE ${{ secrets.DOCKER_USERNAME }}/$DOCKER_IMAGE:v1
         docker push ${{ secrets.DOCKER_USERNAME }}/$DOCKER_IMAGE:v1
+
+    - name: Clean up Docker containers
+      if: always()
+      run: |
+        docker-compose down -v
