@@ -3,9 +3,6 @@ import requests
 from names_generator import generate_name
 from db_connector import get_all_users, delete_user
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.core.os_manager import ChromeType
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
@@ -46,8 +43,7 @@ try:
     for option in options:
         chrome_options.add_argument(option)
 
-    chrome_service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(options=chrome_options, service=chrome_service)
+    driver = webdriver.Chrome(options=chrome_options)
     driver.get(BaseURL)
     delay = 2
 
