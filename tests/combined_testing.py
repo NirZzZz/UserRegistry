@@ -3,7 +3,7 @@ import requests
 from names_generator import generate_name
 from db_connector import get_all_users, delete_user
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromiumService
+from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.core.os_manager import ChromeType
 from selenium.webdriver.chrome.options import Options
@@ -34,12 +34,20 @@ try:
 
     BaseURL = f"{os.getenv('WEB_URL')}{user_id}"
     chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("window-size=1400,600")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Chrome(options=chrome_options, service=ChromiumService(ChromeDriverManager(
-        chrome_type=ChromeType.CHROMIUM).install()))
+    options = [
+        "--headless",
+        "--disable-gpu",
+        "--window-size=1920,1200",
+        "--ignore-certificate-errors",
+        "--disable-extensions",
+        "--no-sandbox",
+        "--disable-dev-shm-usage"
+    ]
+    for option in options:
+        chrome_options.add_argument(option)
+
+    chrome_service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(options=chrome_options, service=chrome_service)
     driver.get(BaseURL)
     delay = 2
 

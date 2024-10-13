@@ -43,12 +43,8 @@ jobs:
       with:
         python-version: '3.9'
 
-    - name: Remove Chrome
-      run: sudo apt purge google-chrome-stable
-    - name: Remove default Chromium
-      run: sudo apt purge chromium-browser
-    - name: Install a new Chromium
-      run: sudo apt install -y chromium-browser
+    - name: install Chrome
+      run: sudo apt install -y google-chrome-stable
 
     - name: Install Docker Compose
       run: |
