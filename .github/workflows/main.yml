@@ -99,5 +99,5 @@ jobs:
 
     - name: Push Docker image to DockerHub
       run: |
-        docker tag $DOCKER_IMAGE ${{ secrets.DOCKER_USERNAME }}/$DOCKER_IMAGE:V1
-        docker push ${{ secrets.DOCKER_USERNAME }}/$DOCKER_IMAGE:V1
+        docker tag $DOCKER_IMAGE ${{ secrets.DOCKER_USERNAME }}/$DOCKER_IMAGE:v1
+        docker push ${{ secrets.DOCKER_USERNAME }}/$DOCKER_IMAGE:v1
