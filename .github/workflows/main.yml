@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DOCKER_IMAGE: userregistry
+      DOCKER_IMAGE: ${{ secrets.DOCKER_IMAGE }}
       DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
       DATABASE_HOST: ${{ secrets.HOST }}
       DATABASE_PORT: ${{ secrets.DATABASE_PORT }}
