@@ -45,7 +45,7 @@ try:
 
     driver = webdriver.Chrome(options=chrome_options)
     driver.get(BaseURL)
-    delay = 2
+    delay = 5
 
     # Test for name element works properly with selenium
     try:
